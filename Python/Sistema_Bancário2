@@ -1,0 +1,55 @@
+class ContaBancaria:
+    def __init__(self):
+        self.saldo = 0
+        self.depositos = []
+        self.saques = []
+        self.saques_diarios = 0
+
+    def depositar(self, valor):
+        if valor > 0:
+            self.saldo += valor
+            self.depositos.append(valor)
+            print(f'Depósito de R${valor:.2f} realizado com sucesso.')
+
+    def sacar(self, valor):
+        if self.saldo >= valor and self.saques_diarios < 3 and valor <= 500:
+            self.saldo -= valor
+            self.saques.append(valor)
+            self.saques_diarios += 1
+            print(f'Saque de R${valor:.2f} realizado com sucesso.')
+        elif self.saldo < valor:
+            print('Saldo insuficiente. Saque não realizado.')
+        elif self.saques_diarios >= 3:
+            print('Limite diário de saques atingido. Saque não realizado.')
+        elif valor > 500:
+            print('Limite máximo por saque é de R$500,00. Saque não realizado.')
+
+    def extrato(self):
+        print('\nExtrato:')
+        if not self.depositos and not self.saques:
+            print('Não foram realizadas movimentações.')
+        else:
+            for deposito in self.depositos:
+                print(f'Depósito: R${deposito:.2f}')
+            for saque in self.saques:
+                print(f'Saque: R${saque:.2f}')
+
+        print(f'Saldo Atual: R${self.saldo:.2f}')
+
+
+def main():
+    conta = ContaBancaria()
+    conta.sacar(500)
+    conta.sacar(500)
+    conta.sacar(500)
+    conta.sacar(500)
+    conta.depositar(5000)
+
+    conta.sacar(500)
+    conta.sacar(500)
+    conta.sacar(500)
+    conta.sacar(500)
+
+    
+if __name__ == "__main__":
+    main()
